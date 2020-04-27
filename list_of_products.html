@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/material.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+    <meta charset="utf-8">
+    <title>Task</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        // GET API  WITH DATA PARSING
+
+        var myObj, productName, price;
+        var _id, index;
+
+        getUser();
+
+
+        function getUser() {
+            $.ajax({
+
+                url: 'http://localhost:3002/api/user/getProducts',
+                type: 'GET',
+                contentType: 'application/json',
+
+                success: function(response) {
+                    // Begin Json Data Here
+                    console.log(response.data);
+
+                    myObj = response.data;
+
+
+                    $("#user").html('');
+
+                    for (var i = 0; i < myObj.length; i++) {
+
+
+                        _id = myObj[i]._id
+                        productName = myObj[i].productName
+                        price = myObj[i].price
+
+
+                        var html =
+
+                            `<tr style="text-align:center" >` +
+
+                            `<td>` + `<p style="font-size: 15px; margin-left:0px;" ` + i + ` >` + productName + `</p>` + `</td>` +
+                            `<td>` + `<p style="font-size: 15px; margin-left:0px;" ` + i + ` >` + price + `</p>` + `</td>` +
+                            `<td>` +
+                            `<a onclick="editUser(` + i + `)">` + `<i class="fa fa-eye" ` + i + `>` + `</i>` + `</a>` +
+                            `</td>` +
+
+                            `</tr>`
+
+                        $("#user").append(html);
+                    }
+
+                }
+
+
+            });
+
+        }
+    </script>
+</head>
+
+
+<body>
+
+
+    <div class="row">
+        <div class="col-12" style="overflow-x: auto;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center">Product Name</th>
+                        <th scope="col" class="text-center">Price</th>
+                        <th scope="col" class="text-center">Buy</th>
+
+                    </tr>
+                </thead>
+                <tbody id="user">
+
+                </tbody>
+            </table>
+        </div>
+
+</body>
+
+</html>

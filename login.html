@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/material.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+    <!-- Script for API -->
+    <script language="JavaScript">
+        var response, MyObj, accessToken;
+
+        function showInput() {
+
+            if (document.getElementById("username").value == "") {
+                alert("please enter username");
+
+            } else if (document.getElementById("password").value == "") {
+                alert("please enter Password");
+            } else {
+                var request = new XMLHttpRequest()
+                var url = 'http://localhost:3002/api/user/signin';
+
+                var data = {
+                    username: document.getElementById("username").value,
+                    password: document.getElementById("password").value
+                }
+
+                body = {
+                    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                    mode: 'cors', // no-cors, cors, *same-origin
+                    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                    credentials: 'same-origin', // include, *same-origin, omit
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // 'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    redirect: 'follow', // manual, *follow, error
+                    referrer: 'no-referrer', // no-referrer, *client
+                    body: JSON.stringify(data), // body data type must match "Content-Type" header
+                }
+
+
+                console.log(document.getElementById("username"));
+                console.log(document.getElementById("password"));
+
+
+                fetch(url, body)
+
+                .then(function(response) {
+
+                    response.json().then(function(data) {
+
+                        console.log(data.statusCode);
+                        localStorage.setItem('hemant', data.data.accessToken);
+                        var token = localStorage.getItem("hemant");
+                        console.log(token);
+
+
+                        if (data.statusCode == 200) {
+                            window.location.href = "list_of_products.html";
+                        } else {
+                            alert("Login Is invalid");
+                        }
+
+                    });
+
+                })
+
+            }
+
+        }
+    </script>
+
+</head>
+
+<body>
+    <form id="login_form" action="" method="post">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                </div>
+                <div class="col-sm-6">
+                    <div id="login">
+                        <div class="card layer1">
+                            <div class="card_wrapper">
+                                <div class="card_wrapper">
+                                    <div class="input_group">
+                                        <div class="heading">
+                                            <h3>Sign in</h3>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="input_group">
+                                        <input id="username" class="input" type="text" name="username" value="" required="">
+                                        <label for="">Email</label>
+                                        <span class="highlight"></span>
+                                    </div>
+                                    <br>
+                                    <div class="input_group">
+                                        <input id="password" class="input" type="password" name="password" value="" required="">
+                                        <label for="">password</label>
+                                        <span class="highlight"></span>
+                                    </div>
+                                    <br>
+                                    <div class="input_group">
+                                        <button class="button" type="button" name="button" onclick="showInput()">sign in</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script type="text/javascript" src="assets/js/jq.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/js/custom.js"></script>
+
+</body>
+
+</html>

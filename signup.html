@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/material.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+    <!-- Script for API -->
+
+    <script language="JavaScript">
+        function showInput() {
+
+            if (document.getElementById("firstName").value == "") {
+                alert("please enter first name");
+
+            } else if (document.getElementById("lastName").value == "") {
+                alert("please enter last name");
+            } else if (document.getElementById("email").value == "") {
+                alert("please enter email");
+            } else if (document.getElementById("password").value == "") {
+                alert("please enter password");
+            } else if (document.getElementById("contact").value == "") {
+                alert("please enter contact");
+            } else if (!/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/.test(document.getElementById("email").value)) {
+                alert("You have entered an invalid email address!")
+            } else {
+                var request = new XMLHttpRequest()
+                var url = 'http://localhost:3002/api/user/signup';
+
+                var data = {
+                    firstName: document.getElementById("firstName").value,
+                    lastName: document.getElementById("lastName").value,
+                    email: document.getElementById("email").value,
+                    contact: document.getElementById("contact").value,
+                    password: document.getElementById("password").value,
+
+                }
+
+                body = {
+                    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                    mode: 'cors', // no-cors, cors, *same-origin
+                    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                    credentials: 'same-origin', // include, *same-origin, omit
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // 'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    redirect: 'follow', // manual, *follow, error
+                    referrer: 'no-referrer', // no-referrer, *client
+                    body: JSON.stringify(data), // body data type must match "Content-Type" header
+                }
+
+
+                fetch(url, body)
+                    .then(function(response) {
+
+                        response.json().then(function(data) {
+
+                            console.log(data.statusCode);
+                            localStorage.setItem('accessToken', data.data.accessToken);
+                            var token = localStorage.getItem("accessToken");
+                            console.log(token);
+
+
+                            if (data.statusCode == 200) {
+                                window.location.href = "login.html";
+                            } else {
+                                alert("Signup Is invalid");
+                            }
+
+                        });
+
+                    })
+
+            }
+
+        }
+    </script>
+</head>
+
+<body>
+    <div class="body_contents">
+        <form id="login_form" action="#" method="post">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-3">
+                    </div>
+                    <div class="col-sm-6">
+                        <div id="login">
+                            <div class="card layer1">
+                                <div class="card_wrapper">
+                                    <div class="card_wrapper">
+                                        <div class="input_group">
+                                            <div class="heading">
+                                                <h3>Signup</h3>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="input_group">
+                                            <input id="firstName" class="input" type="text" name="firstName" value="" required="">
+                                            <label for="">First name</label>
+                                            <span class="highlight"></span>
+                                        </div>
+                                        <br>
+                                        <div class="input_group">
+                                            <input id="lastName" class="input" type="text" name="lastName" value="" required="">
+                                            <label for="">Last Name</label>
+                                            <span class="highlight"></span>
+                                        </div>
+                                        <br>
+                                        <div class="input_group">
+                                            <input id="email" class="input" type="email" name="email" value="" required="">
+                                            <label for="">Email</label>
+                                            <span class="highlight"></span>
+                                        </div>
+                                        <br>
+                                        <div class="input_group">
+                                            <input id="password" class="input" type="text" name="password" value="" required="">
+                                            <label for="">Password</label>
+                                            <span class="highlight"></span>
+                                        </div>
+                                        <br>
+                                        <div class="input_group">
+                                            <input id="contact" class="input" type="text" name="contact" value="" required="">
+                                            <label for="">Contact</label>
+                                            <span class="highlight"></span>
+                                        </div>
+                                        <br>
+                                        <div class="input_group">
+                                            <button onclick="showInput()" class="button" type="button" name="button">submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <script type="text/javascript" src="assets/js/jq.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/js/custom.js"></script>
+</body>
+
+</html>
